@@ -29,52 +29,74 @@
     <section class="content container-fluid">
          <div class="box container">
             <div class="box-header">
-                <h1> Kompetensi Inti</h1>
+                <h1> Nilai Pengetahuan </h1>
             </div>
+
+            <?php
+            $where = "";
+            include "conf/conn.php";  
+            if (isset($_POST['cari_kelas'])){
+              $where = "kode_kelas='".$_POST['kelas']."'";
+            }     
+            
+            ?>
+
+            <form action="" method="post">
+            <label for="kompetensi_inti"> Kelas </label>
+            <select class="form-control" name="kelas">
+                <option value="kosong" > Pilih kelas </option>
+                  <?php
+                    $q = $db->select("*","data_kelas");
+                    while ($row = $db->fetch($q)) {
+                       echo "<option value='".$row['kode_kelas']."'>".$row['nama_kelas']."</option>";
+                    }
+                  ?>
+            </select>
+
+            <input type="submit" class="btn btn-primary" name="cari_kelas">
+            </form>
+            <br/>
+
            <table class='table table-striped'>
                 <thead>
                   <tr>
                     <th> No </th>
-                    <th> Deskripsi </th>
-                    <th> Action </th>
+                    <th> Nis </th>
+                    <th> Nama Siswa </th>
+                    <th> Nilai </th>                    
                   </tr>
                 </thead>
                 <tbody>
                   <?php
-                  include "conf/conn.php";
+                  
 
-                
-                   if (isset($_POST['update-ki'])){
-                    $id = $_POST['id_ki'];
-                    
-                    $no_ki = $_POST['update_no_ki'];
-                    $desk_ki = $_POST['update_desk_ki'];
-
-                    $q = $db->update("ki","no_ki='$no_ki',desk_ki='$desk_ki'","id='$id'");
-                      if ($q){
-                        echo "berhasil update";
-                      } else {
-                        echo "gagal mengupdate";
-                      }
-                    }
-                
                   if (isset($_GET['id'])){
                     $id = $_GET['id'];
-                    $db->delete("ki","id='$id'");
+                    $db->delete("data_siswa","id='$id'");
                   } 
 
-                 $q = $db->select("*","ki");
-                 if ($db->getTableRows($q) === 0){
-                   echo "tidak ada data";
-                 } else {
-                    while ($row = $db->fetch($q)){
+                  $q = $db->select("*","data_siswa",$where);
+                  if ($db->getTableRows($q) === 0){
+                     echo "tidak ada data";
+                  } else {
+                      $i = 0;
+                      $database = "data_siswa";
+                      
+                      while ($row = $db->fetch($q)){
+                      
+                      $i++;
+                      
                       echo "<tr>
-                              <td>".$row['no_ki']."</td>
-                              <td>".$row['desk_ki']."</td>";
-                      echo "<td> <button class='edit_ki btn btn-success' data-toggle='modal' data-id='".$row['id'].",".$row['no_ki'].",".$row['desk_ki']." ' data-target='#edit_kelas'> edit </button>
-
-                      <a href='kompetensi-inti.php?id=".$row['id']." ' onClick=\"javascript: return confirm('Apakah anda yakin ? ');\" ><button class='btn btn-danger'> delete </button></a> </td>";
-                    }
+                              <td>".$i."</td>
+                              <td>".$row['nis']."</td>
+                              <td>".$row['nama_siswa']."</td>";                  
+  
+                      echo "<td><a href='lihat_nilai_pengetahuan_akhir.php?nis=".$row['nis']."'>
+                      <button class='btn btn-warning'> lihat nilai Akhir
+                      </button> </a>
+                             </td>";
+                      }
+                    
                  }
                 
                   ?>
@@ -101,7 +123,9 @@
 
 <!-- modal  -->
 <!-- Modal -->
-<div id="edit_kompetensi_inti" class="modal fade" role="dialog">
+
+
+<div id="tambah_nilai" class="modal fade" role="dialog">
   <div class="modal-dialog">
      
   
@@ -111,19 +135,17 @@
      
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Edit</h4>
+        <h4 class="modal-title"> Beri Nilai </h4>
       </div>
       <div class="modal-body">
-        <input type="hidden" id="id_ki" name="id_ki">
+        <input type="hidden" id="nis" name="nis">
 
-        <label for="Deskripsi"> Nomor KI</label>
-        <input type="text" id="val1" name="update_no_ki" placeholder="masukkan nomor ki .."  class="form-control" />
+        <label for="Deskripsi"> Nilai </label>
+        <input type="number" id="val1" name="nilai" placeholder="masukkan nilai" class="form-control" />
 
-        <label for="Deskripsi"> Deskripsi Kompetensi Inti </label>
-        <input type="text" id="val2" name="update_desk_ki" placeholder="Deskripsi .."  class="form-control" />
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-default" name="update-ki">Update</button>
+        <button type="submit" class="btn btn-default" name="insert_nilai">Update</button>
 
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
@@ -143,18 +165,5 @@
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 
-<script>
-  
-  $(document).on("click", ".edit_ki", function () {
-     var _value= $(this).data('id');
-     var arr_id = _value.split(",");
-
-     $("#id_ki").val( arr_id[0] );
-     $("#val1").val(arr_id[1]);
-     $("#val2").val(arr_id[2]);
-     
-    $('#edit_kompetensi_inti').modal('show');
-});
-</script>
 </body>
 </html>

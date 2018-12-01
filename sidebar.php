@@ -1,18 +1,13 @@
  <section class="sidebar">
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li>
-          <a href="login.php">
-            <i class="fa fa-link"></i>
-            <input type="button" class="btn btn-primary" name="primary" value="login">
-          </a>
-        </li>
+      
         
         <!-- Optionally, you can add icons to the links -->
 
         <li class="active"><a href="kompetensi-inti.php"><i class="fa fa-link"></i> <span>Kompetensi Inti </span></a></li>
         <li><a href="kompetensi_dasar.php"><i class="fa fa-link"></i> <span> Kompetensi Dasar</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span> Data Kelas </span></a></li>
+        <li><a href="data_kelas.php"><i class="fa fa-link"></i> <span> Data Kelas </span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Sikap</span>
             <span class="pull-right-container">
@@ -20,8 +15,8 @@
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Spiritual</a></li>
-            <li><a href="#">Sosial</a></li>
+            <li><a href="spiritual.php">Spiritual</a></li>
+            <li><a href="sosial.php">Sosial</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -31,11 +26,11 @@
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Tugas</a></li>
-            <li><a href="#">Ulangan Harian</a></li>
-            <li><a href="#">Ujian Tengah Semester</a></li>
-            <li><a href="#">Ujian Akhir Semester</a></li>
-            <li><a href="#">Bobot Penilaian</a></li>
+            <li><a href="tugas.php">Tugas</a></li>
+            <li><a href="ulangan_harian.php">Ulangan Harian</a></li>
+            <li><a href="ujian_tengah_semester.php">Ujian Tengah Semester</a></li>
+            <li><a href="ujian_akhir_semester.php">Ujian Akhir Semester</a></li>
+            
           </ul>
         </li>
 
@@ -46,11 +41,9 @@
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Proses</a></li>
-            <li><a href="#">Produk</a></li>
-            <li><a href="#">Proyek</a></li>
-            <li><a href="#">Bobot Penilaian</a></li>
-            
+            <li><a href="proses.php">Proses</a></li>
+            <li><a href="produk.php">Produk</a></li>
+            <li><a href="proyek.php">Proyek</a></li>            
           </ul>
         </li>
 
@@ -61,9 +54,9 @@
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Sikap</a></li>
-            <li><a href="#">Pengetahuan</a></li>
-            <li><a href="#">Keterampilan</a></li>
+            <li><a href="nilai_sikap_akhir.php">Sikap</a></li>
+            <li><a href="nilai_pengetahuan_akhir.php">Pengetahuan</a></li>
+            <li><a href="nilai_keterampilan_akhir.php">Keterampilan</a></li>
                        
           </ul>
         </li>

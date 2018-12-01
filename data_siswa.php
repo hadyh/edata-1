@@ -6,9 +6,11 @@
   <title> E DATA </title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  
   <?php
-  include "link_css.php";
+    include "link_css.php";
   ?>
+
 </head>
 
 <body class="hold-transition skin-green sidebar-mini">
@@ -29,55 +31,47 @@
     <section class="content container-fluid">
          <div class="box container">
             <div class="box-header">
-                <h1> Kompetensi Dasar</h1>
+                <h1> KELAS <?php echo $_GET['nama_kelas']; ?> </h1>
             </div>
-
-
-            <?php
-            include "conf/conn.php";
-            if (isset($_POST['update-kd'])){
-                    $id = $_POST['id_kd'];
-                    
-                    $no_kd = $_POST['update_no_kd'];
-                    $desk_kd = $_POST['update_desk_kd'];
-
-                    $q = $db->update("kd","no_kd='$no_kd',desk_kd='$desk_kd'","id='$id'");
-                      if ($q){
-                        echo "berhasil update";
-                      } else {
-                        echo "gagal mengupdate";
-                      }
-                    }
-
-              if (isset($_GET['id'])){
-                    $id = $_GET['id'];
-                    $db->delete("kd","id='$id'");
-                  } 
-
-                
-            ?>
            <table class='table table-striped'>
                 <thead>
                   <tr>
                     <th> No </th>
-                    <th> Deskripsi </th>
-                    <th> Action </th>
+                    <th> Nis </th>
+                    <th> Nama Siswa </th>
+                    
                   </tr>
                 </thead>
                 <tbody>
-                  <?php  
-                 $q = $db->select("*","kd");
-                 if ($db->getTableRows($q) === 0){
-                   echo "tidak ada data";
-                 } else {
-                    while ($row = $db->fetch($q)){
-                      echo "<tr>
-                              <td>".$row['no_kd']."</td>
-                              <td>".$row['desk_kd']."</td>";
-                      echo "<td> <button class='edit_kd btn btn-success' data-toggle='modal' data-id='".$row['id'].",".$row['no_kd'].",".$row['desk_kd']." ' data-target='#kompetensi_dasar'> edit </button>
+                  <?php
+                  include "conf/conn.php";  
+                  
+                  $kode_kelas = $_GET['kode_kelas'];
 
-                      <a href='kompetensi_dasar.php?id=".$row['id']."' onClick=\"javascript: return confirm('Apakah anda yakin ? ');\"  ><button class='btn btn-danger'> delete </button></a></td>";
-                    }
+                  if (isset($_GET['id'])){
+                    $id = $_GET['id'];
+                    $db->delete("data_siswa","id='$id'");
+                  } 
+
+                  $q = $db->select("*","data_siswa","kode_kelas='".$kode_kelas."'");
+                  if ($db->getTableRows($q) === 0){
+                     echo "tidak ada data";
+                  } else {
+                      
+                      $i = 1;
+                      while ($row = $db->fetch($q)){
+                      $i++;
+                      echo "<tr>
+                              <td>".$i."</td>
+                              <td>".$row['nis']."</td>
+                              <td>".$row['nama_siswa']."</td>
+                              <td>
+                               <a href='data_siswa.php?kode_kelas=".$kode_kelas."&id=".$row['id']." ' onClick=\"javascript: return confirm('Apakah anda yakin ? ');\" ><button class='btn btn-danger'> delete </button></a> 
+                            </td>";
+
+
+                      }
+                    
                  }
                 
                   ?>
@@ -104,7 +98,7 @@
 
 <!-- modal  -->
 <!-- Modal -->
-<div id="kompetensi_inti_modal" class="modal fade" role="dialog">
+<div id="data_kelas" class="modal fade" role="dialog">
   <div class="modal-dialog">
      
   
@@ -117,16 +111,16 @@
         <h4 class="modal-title">Edit</h4>
       </div>
       <div class="modal-body">
-        <input type="hidden" id="id_kd" name="id_kd">
+        <input type="hidden" id="id_kelas" name="id_kelas">
 
-        <label for="Deskripsi"> Nomor KD</label>
-        <input type="text" id="val1" name="update_no_kd" placeholder="masukkan nomor kd .."  class="form-control" />
+        <label for="Deskripsi"> Nama Kelas</label>
+        <input type="text" id="val1" name="nama_kelas" placeholder="nama kelas "  class="form-control" />
 
-        <label for="Deskripsi"> Deskripsi Kompetensi Dasar </label>
-        <input type="text" id="val2" name="update_desk_kd" placeholder="Deskripsi .."  class="form-control" />
+        <label for="Deskripsi"> Kode Kelas</label>
+        <input type="text" id="val2" name="kode_kelas" placeholder="kode kelas .."  class="form-control" />
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-default" name="update-kd">Update</button>
+        <button type="submit" class="btn btn-default" name="update-kelas">Update</button>
 
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
@@ -148,15 +142,15 @@
 <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
 <script>
   
-  $(document).on("click", ".edit_kd", function () {
+  $(document).on("click", ".edit_kelas", function () {
      var id = $(this).data('id');
-     var arr_id = id.split(",");
+     var arr_id = id.split(",")
 
-     $("#val1").val(arr_id[1]);
-     $("#val2").val(arr_id[2])
-     $("#id_kd").val( arr_id[0] );
-    
-    $('#kompetensi_inti_modal').modal('show');
+     $('#val1').val(arr_id[1]);
+     $('#val2').val(arr_id[2]);
+
+     $("#id_kelas").val( arr_id[0] );
+    $('#data_kelas').modal('show');
 });
 </script>
 </body>

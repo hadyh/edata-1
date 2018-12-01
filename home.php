@@ -29,7 +29,7 @@
       <!-- Content Header (Page header) -->
       <section class="content-header">
        <h1 class="text-center">
-          SELAMAT DATANG 
+          <img src="images/1.jpg" alt="logo" width="100px"/> SELAMAT DATANG 
         </h1>
       </section>
 
@@ -50,5 +50,8 @@
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="dist/js/adminlte.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+  
 </body>
+
 </html>

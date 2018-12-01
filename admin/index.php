@@ -15,7 +15,7 @@
     <div class="wrapper">
 
         <!-- Main Header -->
-        <?php include "../header.php"; ?> 
+        <?php include "header.php"; ?> 
         <!-- Left side column. contains the logo and sidebar -->
         <aside class="main-sidebar">
 
@@ -43,22 +43,17 @@
                     }
                 }
                 
-                if (isset($_POST['insert_kd'])){
-                    $no_kd = $_POST['nomor_kd'];
-                    $desk_kd = $_POST['desk_kd'];
-                    $q = $db->insert("kd","id,no_kd,desk_kd","null,'$no_kd','$desk_kd'");
-                    if ($q){
-                        echo "berhasil mengupdate data";
-                    } else {
-                        echo "gagal".$db->showError();
-                    }
-                }
+                
+
+
             ?>
 
             
             <section class="content container-fluid">
                 <div class="row">
                 <div class="col-md-6">
+
+                <!-- Tambah kompetensi Inti  -->
                  <div class="box box-primary">
                 <div class="box-header">
                     <h1> Tambahkan KI</h1>
@@ -80,7 +75,20 @@
             </div>
         </div>
         <div class="col-md-6">
-
+            <?php
+            if (isset($_POST['insert_kd'])){
+                    $no_kd = $_POST['nomor_kd'];
+                    $desk_kd = $_POST['desk_kd'];
+                    $q = $db->insert("kd","id,no_kd,desk_kd","null,'$no_kd','$desk_kd'");
+                    if ($q){
+                        echo "berhasil mengupdate data";
+                    } else {
+                        echo "gagal".$db->showError();
+                    }
+                }
+                 
+            ?>
+            <!-- tambah kompetensi dasar -->
              <div class="box box-primary">
                 <div class="box-header">
                     <h1> Tambahkan KD</h1>
@@ -96,6 +104,89 @@
                     <br>
 
                     <input type="submit" class="btn btn-primary" name="insert_kd" value="Submit"/>
+                   
+                </div>
+            </form>
+                
+            </div>
+        </div>
+    </div>
+      <div class="row">
+        <?php
+         if (isset($_POST['insert_kelas'])){
+                    $kode_kelas = $_POST['kode_kelas'];
+                    $nama_kelas = $_POST['nama_kelas'];
+                    $q = $db->insert("data_kelas","id,nama_kelas,kode_kelas","null,'$nama_kelas','$kode_kelas'");
+                    if ($q){
+                        echo "berhasil mengupdate data";
+                    } else {
+                        echo "gagal".$db->showError();
+                    }
+                }
+
+                ?>
+                <div class="col-md-6">
+                 <div class="box box-primary">
+                <div class="box-header">
+                    <h1> Tambah Kelas </h1>
+                </div>
+                <form action="" method="post">
+                <div class="box-body">
+                    
+                    <label for="nomor"> Kode Kelas </label>
+                    <input class="form-control" type="text" name="kode_kelas" placeholder="Masukkan Nomor" required />
+
+                    <label for="kompetensi_inti"> Nama Kelas </label>
+                    <input class="form-control" type="text" name="nama_kelas" placeholder="masukkan ki" required />
+                    <br>
+                    <input type="submit" class="btn btn-primary" name="insert_kelas" value="Submit" />
+                   
+                </div>
+            </form>
+                
+            </div>
+        </div>
+        <div class="col-md-6">
+             <?php
+             if (isset($_POST['insert_siswa'])){
+                    $nama = $_POST['nama'];
+                    $nis = $_POST['nis'];
+                    $kelas = $_POST['kelas'];
+
+                    $q = $db->insert("data_siswa","id,nis,nama_siswa,kode_kelas","null,'$nis','$nama','$kelas'");
+                    if ($q){
+                        echo "berhasil mengupdate data";
+                    } else {
+                        echo "gagal".$db->showError();
+                    }
+                }
+            ?>
+             <div class="box box-primary">
+                <div class="box-header">
+                    <h1> Tambahkan Siswa </h1>
+                </div>
+                <form action="" method="post">
+                <div class="box-body">
+                    
+                    <label for="nomor"> Nama </label>
+                    <input class="form-control" type="text" name="nama" id="Nama kd" placeholder="Masukkan Nama " required/>
+
+                    <label for="nis"> Nis </label>
+                    <input class="form-control" type="text" name="nis" id="nis" placeholder="Masukkan Nis " required="" />
+                    
+                    <label for="kompetensi_inti"> Kelas </label>
+                    <select class="form-control" name="kelas">
+                        <option value="kosong"> Pilih kelas </option>
+                        <?php
+                        $q = $db->select("*","data_kelas");
+                        while ($row = $db->fetch($q)) {
+                            echo "<option value='".$row['kode_kelas']."'>".$row['nama_kelas']."</option>";
+                        }
+                        ?>
+                    </select>
+                    <br/>
+
+                    <input type="submit" class="btn btn-primary" name="insert_siswa" value="Submit"/>
                    
                 </div>
             </form>
@@ -119,6 +210,7 @@
        
         
     </div>
+    
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../dist/js/adminlte.min.js"></script>

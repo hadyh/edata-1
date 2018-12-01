@@ -6,7 +6,7 @@ class database {
   private $db_username  = "root";
   private $db_password  = "";
   private $db_name      = "edata";
-
+  
   private $connected = false;
   private $connection;
   private $sql_query;
