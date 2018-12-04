@@ -57,7 +57,6 @@
                   if ($db->getTableRows($q) === 0){
                      echo "tidak ada data";
                   } else {
-                      
                       $i = 1;
                       while ($row = $db->fetch($q)){
                       $i++;

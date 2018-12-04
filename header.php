@@ -1,6 +1,7 @@
 <header class="main-header">
+      <?php session_start();  ?>
       <!-- Logo -->
-      <a href="index.php" class="logo">
+      <a href="kompetensi-inti.php" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>E</b>DT</span>
         <!-- logo for regular state and mobile devices -->
@@ -16,25 +17,21 @@
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
 
-            <li class="dropdown messages-menu">
-              <!-- Menu toggle button -->
-              <a href="index.html">
-                <i class="fa fa-home"></i>
-              </a>
-            </li>
+            
 
             <li class="dropdown messages-menu">
               <!-- Menu toggle button -->
               <a href="#">
-                <i class="fa fa-book"></i>
+                <i class="fa fa-user"></i> <?php echo $_SESSION['name'];?> 
               </a>
+               
             </li>
-
             <li class="dropdown messages-menu">
               <!-- Menu toggle button -->
-              <a href="#">
-                <i class="fa fa-question"></i>
+              <a href="index.php">
+                 logout 
               </a>
+               
             </li>
 
            

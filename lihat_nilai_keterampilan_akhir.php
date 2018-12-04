@@ -13,10 +13,6 @@
 
 <body class="hold-transition skin-green sidebar-mini">
 <div class="wrapper">
-  <script type="text/javascript">
-    window.print();
-  </script>
-
  <?php
   include "header.php";
  ?>
@@ -131,7 +127,7 @@
                  echo $nilai_uas['uas'];
                   ?>
                 </p>
-                        
+                <button class="btn btn-primary" onclick="print_file()"> print </button> 
                                  
             </div>
             
@@ -208,6 +204,11 @@
      $("#nis").val( id);
     $('#tambah_nilai').modal('show');
 });
+
+
+  function print_file(){
+    window.print();
+  }
 </script>
 </body>
 </html>

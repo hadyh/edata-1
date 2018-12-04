@@ -68,11 +68,13 @@
                    echo "tidak ada data";
                  } else {
                     while ($row = $db->fetch($q)){
+
                       echo "<tr>
                               <td>".$row['no_ki']."</td>
                               <td>".$row['desk_ki']."</td>";
+                      
                       echo "<td> <button class='edit_ki btn btn-success' data-toggle='modal' data-id='".$row['id'].",".$row['no_ki'].",".$row['desk_ki']." ' data-target='#edit_kelas'> edit </button>
-
+                      
                       <a href='kompetensi-inti.php?id=".$row['id']." ' onClick=\"javascript: return confirm('Apakah anda yakin ? ');\" ><button class='btn btn-danger'> delete </button></a> </td>";
                     }
                  }

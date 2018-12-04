@@ -116,6 +116,8 @@
                   ?>
                 </tbody>
             </table>
+            <button class="btn btn-primary" onclick="print_file()"> print </button> 
+                  
             </div>
             
             <br/>
@@ -191,6 +193,11 @@
      $("#nis").val( id);
     $('#tambah_nilai').modal('show');
 });
+
+
+  function print_file(){
+    window.print();
+  }
 </script>
 </body>
 </html>

@@ -194,6 +194,51 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <?php
+         if (isset($_POST['insert_guru'])){
+                    $nip = $_POST['nip'];
+                    $nama_guru = $_POST['nama_guru'];
+                    $query_count = $db->select("*","data_guru","nip='$nip'");
+                    $count_user = $db->getTableRows($query_count);
+                    if ($count_user == 0){
+                      $q = $db->insert("data_guru","id,nip,nama_guru,password","null,'$nip','$nama_guru','edata'");
+                        if ($q){
+                            echo "berhasil mengupdate data";
+                        } else {
+                            echo "gagal".$db->showError();
+                        }  
+                    } else {
+                        echo "data user sudah ada";
+                    }
+                    
+                }
+
+                ?>
+                <div class="col-md-6">
+                 <div class="box box-primary">
+                <div class="box-header">
+                    <h1> Tambah Kelas </h1>
+                </div>
+                <form action="" method="post">
+                <div class="box-body">
+                    
+                    <label for="nomor"> Nip </label>
+                    <input class="form-control" type="text" name="nip" placeholder="Masukkan Nip" required />
+
+                    <label for="kompetensi_inti"> Nama Guru </label>
+                    <input class="form-control" type="text" name="nama_guru" placeholder="masukkan nama guru " required />
+                    <br>
+                    <input type="submit" class="btn btn-primary" name="insert_guru" value="Submit" />
+                   
+                </div>
+            </form>
+                
+            </div>
+        </div>
+        <div class="col-md-6">             
+        </div>
+    </div>
 
             </section>
             <!-- /.content -->
