@@ -31,53 +31,78 @@
             <div class="box-header">
                 <h1> Kompetensi Dasar</h1>
             </div>
-
-
             <?php
             include "conf/conn.php";
-            if (isset($_POST['update-kd'])){
-                    $id = $_POST['id_kd'];
-                    
+            if (isset($_POST['update'])){
+                    $id = $_POST['no_ki'];
                     $no_kd = $_POST['update_no_kd'];
                     $desk_kd = $_POST['update_desk_kd'];
+                    $q = $db->insert("kd","id,no_ki,no_kd,desk_kd","null,'$id','$no_kd','$desk_kd'");
 
-                    $q = $db->update("kd","no_kd='$no_kd',desk_kd='$desk_kd'","id='$id'");
                       if ($q){
-                        echo "berhasil update";
+                        echo "<div class='alert alert-success' role='alert'> Berhasil Mengupdate Data </div>";
                       } else {
                         echo "gagal mengupdate";
                       }
                     }
 
               if (isset($_GET['id'])){
-                    $id = $_GET['id'];
-                    $db->delete("kd","id='$id'");
-                  } 
+                $id = $_GET['id'];
+                $db->delete("kd","id='$id'");
+              } 
 
                 
             ?>
-           <table class='table table-striped'>
+           <table class='table table-responsive table-hover'>
                 <thead>
                   <tr>
-                    <th> No </th>
-                    <th> Deskripsi </th>
+                    <th>
+                      No
+                    </th>
+                    <th> Kompetensi Inti </th>
+                    <th> Kompetensi dasar</th>
                     <th> Action </th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php  
-                 $q = $db->select("*","kd");
-                 if ($db->getTableRows($q) === 0){
-                   echo "tidak ada data";
-                 } else {
-                    while ($row = $db->fetch($q)){
+                 $q3 = $db->select("*","ki",'no_ki=3');
+                  $q4 = $db->select("*","ki",'no_ki=4');
+                    
+                    while ($row1 = $db->fetch($q3)){
                       echo "<tr>
-                              <td>".$row['no_kd']."</td>
-                              <td>".$row['desk_kd']."</td>";
-                      echo "<td> <button class='edit_kd btn btn-success' data-toggle='modal' data-id='".$row['id'].",".$row['no_kd'].",".$row['desk_kd']." ' data-target='#kompetensi_dasar'> edit </button>
+                              <td>1</td>
+                              <td>".$row1['desk_ki']."</td>
+                              <td>";
+                              $x = $row1['no_ki'];
+                              $select_kd = $db->select('*',"kd","no_ki='$x'");
+                              echo "<ul>";
+                              while ($data_kd = $db->fetch($select_kd)) {
+                                echo "<li>".$data_kd['no_kd']."-".$data_kd['desk_kd']."  <a href='kompetensi_dasar.php?id=".$data_kd['id']."' onClick=\"javascript: return confirm('Apakah anda yakin ? ');\"><button class='btn btn-danger btn-sm'>x</button></a> </li>";
+                              }
+                              echo "</ul>";
+                      echo "</td><td> <button class='edit_kd btn btn-success' data-toggle='modal' data-id='".$row1['no_ki']." ' data-target='#kompetensi_dasar'> Tambah </button>
 
-                      <a href='kompetensi_dasar.php?id=".$row['id']."' onClick=\"javascript: return confirm('Apakah anda yakin ? ');\"  ><button class='btn btn-danger'> delete </button></a></td>";
+                     </td>
+                     </tr>";
                     }
+                    while ($row2 = $db->fetch($q4)){
+                      echo "<tr>
+                              <td>2</td>
+                              <td>".$row2['desk_ki']."</td>
+                              <td>";
+                              $x = $row2['no_ki'];
+                              $select_kd = $db->select('*',"kd","no_ki='$x'");
+                              echo "<ul>";
+                              while ($data_kd = $db->fetch($select_kd)) {
+                                echo "<li>".$data_kd['no_kd']."-".$data_kd['desk_kd']."  <a href='kompetensi_dasar.php?id=".$data_kd['id']."' onClick=\"javascript: return confirm('Apakah anda yakin ? ');\"><button class='btn btn-danger btn-sm'>x</button></a> </li>";
+                              }
+                              echo "</ul>";
+                      echo "</td><td> <button class='edit_kd btn btn-success' data-toggle='modal' data-id='".$row2['no_ki']." ' data-target='#kompetensi_dasar'> Tambah </button>
+
+                     </td>
+                     </tr>";
+                    
                  }
                 
                   ?>
@@ -117,16 +142,16 @@
         <h4 class="modal-title">Edit</h4>
       </div>
       <div class="modal-body">
-        <input type="hidden" id="id_kd" name="id_kd">
+        <input type="hidden" id="val1" name="no_ki">
 
         <label for="Deskripsi"> Nomor KD</label>
-        <input type="text" id="val1" name="update_no_kd" placeholder="masukkan nomor kd .."  class="form-control" />
+        <input type="text"  name="update_no_kd" placeholder="masukkan nomor kd .."  class="form-control" />
 
         <label for="Deskripsi"> Deskripsi Kompetensi Dasar </label>
-        <input type="text" id="val2" name="update_desk_kd" placeholder="Deskripsi .."  class="form-control" />
+        <input type="text" name="update_desk_kd" placeholder="Deskripsi .."  class="form-control" />
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-default" name="update-kd">Update</button>
+        <button type="submit" class="btn btn-default" name="update">Update</button>
 
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
@@ -150,12 +175,8 @@
   
   $(document).on("click", ".edit_kd", function () {
      var id = $(this).data('id');
-     var arr_id = id.split(",");
 
-     $("#val1").val(arr_id[1]);
-     $("#val2").val(arr_id[2])
-     $("#id_kd").val( arr_id[0] );
-    
+     $("#val1").val(id);
     $('#kompetensi_inti_modal').modal('show');
 });
 </script>

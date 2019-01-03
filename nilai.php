@@ -40,12 +40,12 @@
             }
 
             if (isset($_POST['insert_nilai'])){
-              $nis = $_POST['nis'];
-              echo "Nis : ".$nis;
+              $kode_indikator = $_POST['nis'];
               $nilai = $_POST['nilai'];
               $database = $_GET['database'];
               $nama_indikator = $_GET['nama_indikator'];
-              $q = $db->insert($database,"id,nis,indikator,nilai","null,'$nis','$nama_indikator','$nilai'");
+              //ins
+              $q = $db->insert($database,"id,kode_indikator,indikator,nilai","null,'$kode_indikator','$nama_indikator','$nilai'");
               if ($q){
                 echo "berhasil menambahkan nilai";
               } else {
@@ -58,7 +58,7 @@
             <form action="" method="post">
             <label for="kompetensi_inti"> Kelas </label>
             <select class="form-control" name="kelas">
-                <option value="kosong" > Pilih kelas </option>
+                <option value="kosong"> Pilih kelas </option>
                   <?php
                     $q = $db->select("*","data_kelas");
                     while ($row = $db->fetch($q)) {
@@ -82,8 +82,6 @@
                 </thead>
                 <tbody>
                   <?php
-                  
-
                   if (isset($_GET['id'])){
                     $id = $_GET['id'];
                     $db->delete("data_siswa","id='$id'");
@@ -95,19 +93,16 @@
                   } else {
                       $i = 0;
                       $database = $_GET['database'];
-                      
                       while ($row = $db->fetch($q)){
-                      
-                      $i++;
-                      
-                      echo "<tr>
-                              <td>".$i."</td>
-                              <td>".$row['nis']."</td>
-                              <td>".$row['nama_siswa']."</td>";                  
-                      echo "<td> <button class='tambah_nilai btn btn-primary' data-toggle='modal' data-id='".$row['nis']."' data-target='#tambah_nilai' > tambah nilai </button> </a>";
+                        $i++;
+                        echo "<tr>
+                                <td>".$i."</td>
+                                <td>".$row['nis']."</td>
+                                <td>".$row['nama_siswa']."</td>";
+                        echo "<td> <button class='tambah_nilai btn btn-primary' data-toggle='modal' data-id='".$row['nis']."' data-target='#tambah_nilai' > tambah nilai </button> </a>";
 
-                      echo "<a href='lihat_nilai.php?nis=".$row['nis']."&indikator=".$_GET['nama_indikator']."&database=".$_GET['database']."' ><button class='tambah_nilai btn btn-warning'> lihat nilai </button> </a>
-                             </td>";
+                        echo "<a href='lihat_nilai.php?nis=".$row['nis']."&indikator=".$_GET['nama_indikator']."&database=".$_GET['database']."' ><button class='tambah_nilai btn btn-warning'> lihat nilai </button> </a>
+                               </td>";
                       }
                     
                  }
@@ -154,7 +149,12 @@
         <input type="hidden" id="nis" name="nis">
 
         <label for="Deskripsi"> Nilai </label>
-        <input type="number" id="val1" name="nilai" placeholder="masukkan nilai" class="form-control" />
+        <select name="nilai" class="form-control">
+          <option value="sangat baik"> sangat baik </option>
+          <option value="baik"> baik </option>
+          <option value="cukup"> cukup </option>
+          <option value="perlu bimbingan"> perlu bimbingan </option>
+        </select>
 
       </div>
       <div class="modal-footer">

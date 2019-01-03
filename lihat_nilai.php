@@ -68,10 +68,10 @@
                   <?php
                   
                   $database = $_GET['database'];
-                  $nis = $_GET['nis'];
+                  $nis = $_GET['kode_indikator'];
                   $indikator = $_GET['indikator'];
 
-                  $q = $db->select("*",$database,"nis='$nis' and indikator='$indikator'");
+                  $q = $db->select("*","nilai_sikap","nis='$nis' and indikator='$indikator'");
                   if ($db->getTableRows($q) === 0){
                      echo "tidak ada data";
                   } else {

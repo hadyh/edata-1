@@ -29,32 +29,67 @@
     <section class="content container-fluid">
          <div class="box container">
             <div class="box-header">
-                <h1> Nilai : <?php echo $_GET['nama_produk'];?> </h1>
+                <h1> Rekap Nilai </h1>
             </div>
 
             <?php
+
             $where = "";
-            include "conf/conn.php";  
+            include "conf/conn.php"; 
             if (isset($_POST['cari_kelas'])){
               $where = "kode_kelas='".$_POST['kelas']."'";
-            }
+            } 
             if (isset($_POST['insert_nilai'])){
-              $nis = $_POST['nis'];           
+              $nis = $_POST['nis'];
+              $no_kd = $_POST['no_kd'];
               $nilai = $_POST['nilai'];
-              $database = $_GET['database'];
-              $nama_produk = $_GET['nama_produk'];
-              $q = $db->insert($database,"id,nis,nama_produk,nilai","null,'$nis','$nama_produk','$nilai'");
+
+              $search_content = $db->select("*","nilai","nis='$nis' and no_kd='$no_kd' and type='pe'");
+
+              $count_result = $db->getTableRows($search_content);
+
+              if ($count_result == 0 ){
+                $q = $db->insert("nilai","nis,no_kd,nilai,type","'$nis','$no_kd','$nilai','pe'");
+
               if ($q){
-                echo "berhasil menambahkan nilai";
-              } else {
-                echo "gagal".$db->showError();
+                echo 
+                  "<div class='alert alert-success' role='alert'> 
+                    Berhasil Mengupdate Data 
+                  </div>";
+                } else {
+                  echo "gagal menambahkan nilai";
+                }
+              } else{
+                echo "<div class='alert alert-warning' role='alert'> 
+                    silakan tekan tombol edit untuk mengedit nilai 
+                  </div>";
               }
-            }     
+
+              
+            } 
+            if (isset($_POST['edit_nilai'])){
+              $nis = $_POST['nis'];
+              $no_kd = $_POST['no_kd'];
+              $nilai = $_POST['nilai'];
+
+
+              $update = $db->update("nilai","nilai='$nilai'","nis='$nis' and no_kd='$no_kd' and type='pe'");
+
+              if ($update){
+                  echo 
+                  "<div class='alert alert-success' role='alert'> 
+                    Berhasil Mengupdate Data 
+                  </div>";
+                } else {
+                  echo "gagal menambahkan nilai";
+                }              
+            }   
             ?>
+
             <form action="" method="post">
             <label for="kompetensi_inti"> Kelas </label>
             <select class="form-control" name="kelas">
-                <option value="kosong" > Pilih kelas </option>
+                <option value="kosong"> Pilih kelas </option>
                   <?php
                     $q = $db->select("*","data_kelas");
                     while ($row = $db->fetch($q)) {
@@ -62,9 +97,11 @@
                     }
                   ?>
             </select>
+
             <input type="submit" class="btn btn-primary" name="cari_kelas">
             </form>
             <br/>
+
            <table class='table table-striped'>
                 <thead>
                   <tr>
@@ -75,6 +112,7 @@
                   </tr>
                 </thead>
                 <tbody>
+
                   <?php
                   if (isset($_GET['id'])){
                     $id = $_GET['id'];
@@ -85,28 +123,32 @@
                      echo "tidak ada data";
                   } else {
                       $i = 0;
-                      $database = $_GET['database'];
-                      
                       while ($row = $db->fetch($q)){
-                      
-                      $i++;
-                      
-                      echo "<tr>
-                              <td>".$i."</td>
-                              <td>".$row['nis']."</td>
-                              <td>".$row['nama_siswa']."</td>";                  
-                      echo "<td> <button class='tambah_nilai btn btn-primary' data-toggle='modal' data-id='".$row['nis']."' data-target='#tambah_nilai' > tambah nilai </button> </a>";
+                        $i++;
+                        echo "<tr>
+                                <td>".$i."</td>
+                                <td>".$row['nis']."</td>
+                                <td>".$row['nama_siswa']."</td>
+                                <td> <a href='rekap_nilai_siswa.php?id=".$row['nis']."''><button class='btn btn-danger btn-sm'> Lihat Nilai </button></a></td>
 
-                      echo "<a href='lihat_nilai_produk.php?nis=".$row['nis']."&nama_produk=".$_GET['nama_produk']."&database=".$_GET['database']."' ><button class='tambah_nilai btn btn-warning'> lihat nilai </button> </a>
-                             </td>";
+
+                              </tr>";
+  
+
+                
+                        
                       }
                     
                  }
+                
                   ?>
                 </tbody>
             </table>
         </div>     
-      </section>       
+
+      </section>
+       
+       
   </div>
   <!-- /.content-wrapper -->
   <!-- Main Footer -->
@@ -117,8 +159,48 @@
   immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
+<!-- ./wrapper -->
+
+
+<div id="edit_nilai" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+     
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+    <form action="" method="post">
+     
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"> Edit Nilai </h4>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" class="val1" name="nis">
+         <input type="hidden" class="val2" name="no_kd">
+
+        <label for="Deskripsi"> Nilai </label>    
+        <input type="number" name="nilai" class="form-control" placeholder="berikan nilai">    
+
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-default" name="edit_nilai">Update</button>
+
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </form>
+      
+    </div>
+
+  </div>
+</div>
+<!-- modal  -->
+<!-- Modal -->
+
+
 <div id="tambah_nilai" class="modal fade" role="dialog">
   <div class="modal-dialog">
+     
+  
     <!-- Modal content-->
     <div class="modal-content">
     <form action="" method="post">
@@ -128,10 +210,11 @@
         <h4 class="modal-title"> Beri Nilai </h4>
       </div>
       <div class="modal-body">
-        <input type="hidden" id="nis" name="nis">
+        <input type="hidden" class="val1" name="nis">
+         <input type="hidden" class="val2" name="no_kd">
 
-        <label for="Deskripsi"> Nilai </label>
-        <input type="number" id="val1" name="nilai" placeholder="masukkan nilai" class="form-control" />
+        <label for="Deskripsi"> Nilai </label>    
+        <input type="number" name="nilai" class="form-control" placeholder="berikan nilai">    
 
       </div>
       <div class="modal-footer">
@@ -145,9 +228,6 @@
 
   </div>
 </div>
-<!-- modal n -->
-<!-- REQUIRED JS SCRIPTS -->
-
 <!-- jQuery 3 -->
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
@@ -158,9 +238,12 @@
 <script>
   
   $(document).on("click", ".tambah_nilai", function () {
-     var id = $(this).data('id');
-     $("#nis").val( id);
-    $('#tambah_nilai').modal('show');
+     var _value= $(this).data('id');
+     var arr_id = _value.split(",");
+     console.log(arr_id);
+     $(".val1").val( arr_id[0] );
+     $(".val2").val(arr_id[1]);     
+    $('#edit_kompetensi_inti').modal('show');
 });
 </script>
 </body>

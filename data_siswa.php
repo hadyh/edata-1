@@ -30,6 +30,35 @@
   <div class="content-wrapper">
     <section class="content container-fluid">
          <div class="box container">
+          <?php
+            include "conf/conn.php";  
+          if (isset($_POST['tambah_siswa'])){
+                    $nama = $_POST['nama_siswa'];
+                    $nis = $_POST['nis'];
+                    $kode_kelas = $_GET['kode_kelas'];
+                    $q = $db->select("*","data_siswa","nis='$nis'");
+
+                    $row = $db->getTableRows($q);
+                    
+                    if ($row != 0){
+                      echo 
+                      "<div class='alert alert-warning' role='alert'> 
+                        Nim sudah ada 
+                      </div>";
+                    } else {
+                      $insert = $db->insert("data_siswa","nis,nama_siswa,kode_kelas","'$nis','$nama','$kode_kelas'");
+                      if ($insert){
+                         echo 
+                      "<div class='alert alert-success' role='alert'> 
+                        Berhasil Menambahkan Nilai 
+                      </div>";
+                      } else {
+                        echo "gagal".$db->showError();
+                      }
+                    }
+                  }
+
+            ?>
             <div class="box-header">
                 <h1> KELAS <?php echo $_GET['nama_kelas']; ?> </h1>
             </div>
@@ -57,7 +86,7 @@
                   if ($db->getTableRows($q) === 0){
                      echo "tidak ada data";
                   } else {
-                      $i = 1;
+                      $i = 0;
                       while ($row = $db->fetch($q)){
                       $i++;
                       echo "<tr>
@@ -65,8 +94,9 @@
                               <td>".$row['nis']."</td>
                               <td>".$row['nama_siswa']."</td>
                               <td>
-                               <a href='data_siswa.php?kode_kelas=".$kode_kelas."&id=".$row['id']." ' onClick=\"javascript: return confirm('Apakah anda yakin ? ');\" ><button class='btn btn-danger'> delete </button></a> 
-                            </td>";
+                               <a href='data_siswa.php?kode_kelas=".$kode_kelas."&id=".$row['id']."&nama_kelas=".$_GET['nama_kelas']."' onClick=\"javascript: return confirm('Apakah anda yakin ? ');\" ><button class='btn btn-danger'> delete </button></a> 
+                            </td>
+                            </tr>";
 
 
                       }
@@ -76,6 +106,8 @@
                   ?>
                 </tbody>
             </table>
+             <button  class="btn btn-primary" data-toggle="modal" data-target="#tambah_siswa"> tambah siswa</button>
+            <hr>
         </div>     
 
       </section>
@@ -97,7 +129,7 @@
 
 <!-- modal  -->
 <!-- Modal -->
-<div id="data_kelas" class="modal fade" role="dialog">
+<div id="tambah_siswa" class="modal fade" role="dialog">
   <div class="modal-dialog">
      
   
@@ -112,14 +144,14 @@
       <div class="modal-body">
         <input type="hidden" id="id_kelas" name="id_kelas">
 
-        <label for="Deskripsi"> Nama Kelas</label>
-        <input type="text" id="val1" name="nama_kelas" placeholder="nama kelas "  class="form-control" />
+        <label for="Deskripsi"> Nis </label>
+        <input type="text" id="val1" name="nis" placeholder="Masukkan Nis"  class="form-control" />
 
-        <label for="Deskripsi"> Kode Kelas</label>
-        <input type="text" id="val2" name="kode_kelas" placeholder="kode kelas .."  class="form-control" />
+        <label for="Deskripsi"> Nama Siswa </label>
+        <input type="text" id="val2" name="nama_siswa" placeholder="Nama Siswa .."  class="form-control" />
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-default" name="update-kelas">Update</button>
+        <button type="submit" class="btn btn-default" name="tambah_siswa">Tambahkan </button>
 
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>

@@ -34,7 +34,7 @@
                     $no_ki = $_POST['nomor_ki'];
                     $desk_ki = $_POST['desk_ki'];
 
-                    $q = $db->insert("ki","id,no_ki,desk_ki","null,'$no_ki','$desk_ki'");
+                    $q = $db->insert("kompetensi","id,no_ki,deskripsi_ki","null,'$no_ki','$desk_ki'");
 
                     if ($q){
                         echo "berhasil mengupdate data";

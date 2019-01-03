@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title> E DATA </title>
-  <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
   <?php
   include "link_css.php";
   ?>
@@ -18,7 +18,7 @@
   include "header.php";
  ?>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
+   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
    <?php include "sidebar.php"; ?>
     <!-- /.sidebar -->
@@ -40,8 +40,8 @@
             }
 
             if (isset($_POST['insert_nilai'])){
+
               $nis = $_POST['nis'];
-             
               $nilai = $_POST['nilai'];
               $database = $_GET['database'];
               $nama_proyek = $_GET['nama_proyek'];
@@ -51,6 +51,7 @@
               } else {
                 echo "gagal".$db->showError();
               }
+
             }     
             ?>
             <form action="" method="post">
@@ -108,8 +109,7 @@
                              </td>";
                       }
                     
-                 }
-                
+                 }     
                   ?>
                 </tbody>
             </table>

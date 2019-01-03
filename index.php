@@ -16,6 +16,7 @@
     } else {
       
       $_SESSION['name'] = $data['nama_guru'];
+      $_SESSION['nip'] = $data['nip'];
       header("location: kompetensi-inti.php");
     }
   }

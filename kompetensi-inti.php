@@ -52,16 +52,13 @@
 
                     $q = $db->update("ki","no_ki='$no_ki',desk_ki='$desk_ki'","id='$id'");
                       if ($q){
-                        echo "berhasil update";
+                        echo "<div class='alert alert-success' role='alert'>Berhasil Mengupdate Data </div>";
                       } else {
                         echo "gagal mengupdate";
                       }
                     }
                 
-                  if (isset($_GET['id'])){
-                    $id = $_GET['id'];
-                    $db->delete("ki","id='$id'");
-                  } 
+                   
 
                  $q = $db->select("*","ki");
                  if ($db->getTableRows($q) === 0){
@@ -73,9 +70,7 @@
                               <td>".$row['no_ki']."</td>
                               <td>".$row['desk_ki']."</td>";
                       
-                      echo "<td> <button class='edit_ki btn btn-success' data-toggle='modal' data-id='".$row['id'].",".$row['no_ki'].",".$row['desk_ki']." ' data-target='#edit_kelas'> edit </button>
-                      
-                      <a href='kompetensi-inti.php?id=".$row['id']." ' onClick=\"javascript: return confirm('Apakah anda yakin ? ');\" ><button class='btn btn-danger'> delete </button></a> </td>";
+                      echo "<td> <button class='edit_ki btn btn-success' data-toggle='modal' data-id='".$row['id'].",".$row['no_ki'].",".$row['desk_ki']." ' data-target='#edit_kelas'> edit </button> </td></tr>";
                     }
                  }
                 
